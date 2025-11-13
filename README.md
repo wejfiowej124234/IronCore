@@ -21,6 +21,61 @@
 
 A REST API server for cryptocurrency wallet management built with Rust. This is the core backend engine powering the entire Iron Blockchain Wallet Ecosystem.
 
+---
+
+## 📸 Screenshots
+
+> Frontend applications powered by IronCore Backend API
+
+### Dashboard - Wallet Overview
+
+![Dashboard](docs/screenshots/dashboard.png)
+*Multi-chain wallet dashboard with real-time balance, transaction history, and quick actions*
+
+---
+
+### Send Transaction
+
+![Send Transaction](docs/screenshots/send-transaction.png)
+*Secure transaction sending with gas estimation and risk detection*
+
+---
+
+### Transaction History
+
+![Transaction History](docs/screenshots/transaction-history.png)
+*Complete transaction history with filtering and search capabilities*
+
+---
+
+### Token Exchange
+
+![Exchange](docs/screenshots/exchange.png)
+*Real-time token swap with price charts and liquidity pools*
+
+---
+
+### Cross-chain Bridge
+
+![Bridge](docs/screenshots/bridge.png)
+*Cross-chain asset transfer with automatic routing and best rates*
+
+---
+
+### GameFi & NFT Hub
+
+![New World](docs/screenshots/newworld.png)
+*GameFi assets and NFT management integrated with wallet*
+
+---
+
+### Settings & Configuration
+
+![Settings](docs/screenshots/settings.png)
+*Backend API configuration, health monitoring, and security settings*
+
+---
+
 ## Features
 
 - Multi-chain support (Ethereum, Bitcoin, Polygon, BSC)
