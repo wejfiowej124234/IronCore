@@ -1,0 +1,56 @@
+# Codecov 配置 - 严格的质量门禁
+
+coverage:
+  status:
+    project:
+      default:
+        # 🔴 整体覆盖率必须 ≥ 75%
+        target: 75%
+        threshold: 0%  # 不允许覆盖率下降
+        if_ci_failed: error
+    
+    patch:
+      default:
+        # 🔴 新代码必须 ≥ 80% 覆盖率
+        target: 80%
+        threshold: 0%
+  
+  # 关键文件的覆盖率要求
+  precision: 2
+  round: down
+  range: "70...100"
+
+# 🔐 关键模块必须高覆盖率
+flag_management:
+  default_rules:
+    carryforward: true
+    statuses:
+      - type: project
+        target: 75%
+      - type: patch
+        target: 80%
+
+# 忽略的文件（不计入覆盖率）
+ignore:
+  - "tests/**/*"
+  - "examples/**/*"
+  - "src/bin/**/*"
+  - "**/*_test.rs"
+
+# 评论设置
+comment:
+  layout: "reach,diff,flags,tree"
+  behavior: default
+  require_changes: false
+  require_base: false
+  require_head: true
+
+# 🔴 严格模式：任何覆盖率下降都会失败
+parsers:
+  gcov:
+    branch_detection:
+      conditional: yes
+      loop: yes
+      method: no
+      macro: no
+

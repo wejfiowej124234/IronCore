@@ -1,0 +1,8 @@
+{
+  "workflow_run": {
+    "id": 12345,
+    "workflow_id": 67890,
+    "conclusion": "failure",
+    "head_branch": "security/secretvec-ci"
+  }
+}

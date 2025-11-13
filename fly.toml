@@ -1,0 +1,77 @@
+# Fly.io Configuration for Rust Blockchain Wallet Backend
+# Auto-generated for zero-cost deployment
+
+app = "rustwallet-backend"
+primary_region = "nrt" # Tokyo (低延迟，或改hkg香港)
+
+# 使用Dockerfile构建
+[build]
+
+[env]
+  # 端口配置（Fly.io自动设置）
+  PORT = "8080"
+  RUST_LOG = "info"
+  
+  # 数据库路径
+  DATABASE_URL = "/data/users.db"
+
+# HTTP服务配置
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = true  # 闲置自动停止（节省资源）
+  auto_start_machines = true # 访问时自动启动
+  min_machines_running = 0   # 免费层设置
+  processes = ["app"]
+
+# 端口映射
+[[services]]
+  protocol = "tcp"
+  internal_port = 8080
+
+  # HTTP端口
+  [[services.ports]]
+    port = 80
+    handlers = ["http"]
+    force_https = true
+
+  # HTTPS端口
+  [[services.ports]]
+    port = 443
+    handlers = ["tls", "http"]
+
+  # 并发控制
+  [services.concurrency]
+    type = "connections"
+    hard_limit = 25
+    soft_limit = 20
+
+# 健康检查
+[[services.tcp_checks]]
+  interval = "15s"
+  timeout = "2s"
+  grace_period = "10s"
+
+# HTTP健康检查
+[[services.http_checks]]
+  interval = 30000
+  grace_period = "10s"
+  method = "get"
+  path = "/api/health"
+  protocol = "http"
+  timeout = 5000
+  
+  # 健康检查期望的响应
+  [services.http_checks.headers]
+
+# VM配置（免费层）
+[[vm]]
+  cpu_kind = "shared"
+  cpus = 1
+  memory_mb = 256
+
+# 持久化存储（用于SQLite数据库）
+[mounts]
+  source = "wallet_data"
+  destination = "/data"
+

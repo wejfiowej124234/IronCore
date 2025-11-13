@@ -1,0 +1,56 @@
+# Prometheus告警规则
+
+groups:
+  - name: wallet_alerts
+    interval: 30s
+    rules:
+      # 高错误率告警
+      - alert: HighErrorRate
+        expr: rate(http_requests_total{status=~"5.."}[5m]) > 0.05
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "高错误率检测"
+          description: "后端错误率超过5%"
+
+      # 响应时间过长
+      - alert: SlowResponse
+        expr: http_request_duration_seconds{quantile="0.99"} > 1
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "响应时间过长"
+          description: "P99响应时间超过1秒"
+
+      # 服务宕机
+      - alert: ServiceDown
+        expr: up{job="wallet-backend"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "服务宕机"
+          description: "钱包后端服务不可用"
+
+      # 高内存使用
+      - alert: HighMemoryUsage
+        expr: process_resident_memory_bytes > 2000000000
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "内存使用过高"
+          description: "内存使用超过2GB"
+
+      # 速率限制频繁触发
+      - alert: FrequentRateLimiting
+        expr: rate(rate_limit_exceeded_total[5m]) > 10
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "速率限制频繁触发"
+          description: "可能存在恶意请求或需要调整限速配置"
+

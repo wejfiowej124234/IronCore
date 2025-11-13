@@ -1,0 +1,27 @@
+[package]
+name = "elliptic-curve-tools"
+version = "0.1.2"
+edition = "2021"
+
+[dependencies]
+# 为测试和序列化启用 serde 特性
+k256 = { version = "0.13", features = ["arithmetic", "serde"] }
+p256 = { version = "0.13", features = ["arithmetic", "serde"] }
+elliptic-curve = { version = "0.13", features = ["alloc", "serde"] }
+anyhow = "1.0"
+zeroize = { version = "1.8.1", features = ["derive"] }
+group = "0.13"
+
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+[dev-dependencies]
+# 保持测试依赖一致
+rand = "0.8"
+
+# 新增：提供给 workspace/features 引用的空实现
+[features]
+default = ["std"]
+std = ["elliptic-curve/std", "anyhow/std"]
+alloc = ["elliptic-curve/alloc"]
+sop_patch_tests = ["std"]

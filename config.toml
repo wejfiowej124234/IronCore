@@ -1,0 +1,69 @@
+# DeFi Hot Wallet Configuration
+# Production-ready configuration template
+# Updated: 2025-11-07
+
+[server]
+host = "127.0.0.1"
+port = 8081
+tls_enabled = false
+# cert_path = "/app/keys/server.crt"
+# key_path = "/app/keys/server.key"
+
+[security]
+quantum_safe_default = true
+multi_sig_threshold = 2
+hsm_enabled = false
+encryption_algorithm = "Kyber1024"
+key_derivation_rounds = 100000
+session_timeout_minutes = 30
+
+[blockchain]
+default_gas_limit = 21000
+transaction_timeout_seconds = 300
+
+[blockchain.networks.eth]
+rpc_url = "https://eth.llamarpc.com" # Free public RPC, no API key required
+chain_id = 1
+explorer_url = "https://etherscan.io"
+native_token = "ETH"
+
+[blockchain.networks.sepolia]
+rpc_url = "https://sepolia.drpc.org" # Free public RPC, no API key required
+chain_id = 11155111
+explorer_url = "https://sepolia.etherscan.io"
+native_token = "ETH"
+
+[blockchain.networks.polygon]
+rpc_url = "https://polygon-rpc.com"
+chain_id = 137
+explorer_url = "https://polygonscan.com"
+native_token = "MATIC"
+
+[blockchain.networks.bsc]
+rpc_url = "https://bsc-dataseed.binance.org"
+chain_id = 56
+explorer_url = "https://bscscan.com"
+native_token = "BNB"
+
+[blockchain.networks.bsctestnet]
+rpc_url = "https://data-seed-prebsc-1-s1.binance.org:8545/"
+chain_id = 97
+explorer_url = "https://testnet.bscscan.com"
+native_token = "tBNB"
+
+[storage]
+database_url = "sqlite://./data/wallet.db?mode=rwc"
+encryption_key_path = "./keys/master.key"
+backup_enabled = true
+backup_interval_hours = 24
+
+[monitoring]
+metrics_enabled = true
+metrics_port = 9090
+log_level = "info"
+# alert_webhook_url = "https://your-webhook.example.com/alerts"
+
+[i18n]
+default_language = "en"
+supported_languages = ["en", "zh"]
+resources_path = "./resources/i18n"

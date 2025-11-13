@@ -1,0 +1,62 @@
+# cargo-deny 配置 - 严格的依赖和许可证检查
+
+[advisories]
+# 🔴 安全漏洞检查
+db-path = "~/.cargo/advisory-db"
+db-urls = ["https://github.com/rustsec/advisory-db"]
+vulnerability = "deny"  # 发现漏洞 → 失败
+unmaintained = "warn"   # 未维护的包 → 警告
+yanked = "deny"         # yanked 的包 → 失败
+notice = "warn"
+ignore = []
+
+[licenses]
+# 🔐 许可证检查 - 防止 GPL 污染
+unlicensed = "deny"
+allow = [
+    "MIT",
+    "Apache-2.0",
+    "BSD-3-Clause",
+    "BSD-2-Clause", 
+    "ISC",
+    "Unicode-DFS-2016",
+    "CC0-1.0",
+    "MPL-2.0",  # Mozilla Public License
+    "Zlib",
+    "0BSD",
+]
+deny = [
+    "GPL-2.0",
+    "GPL-3.0", 
+    "AGPL-3.0",  # 🔴 严禁 AGPL（会传染）
+    "LGPL-2.0",
+    "LGPL-3.0",
+]
+copyleft = "deny"  # 🔴 禁止 copyleft 许可证
+allow-osi-fsf-free = "neither"
+default = "deny"
+confidence-threshold = 0.8
+
+[bans]
+# 🔴 禁止的 crate（已知问题）
+multiple-versions = "warn"  # 同一 crate 多版本 → 警告
+wildcards = "deny"          # 禁止通配符版本
+highlight = "all"
+allow = []
+deny = [
+    # 🔴 已知有安全问题的 crate
+    { name = "openssl", reason = "使用 rustls 替代" },
+    { name = "native-tls", reason = "使用 rustls 替代" },
+]
+
+# 🔐 允许的重复（版本冲突临时豁免）
+skip = []
+
+skip-tree = []
+
+[sources]
+# 🔴 只允许官方源
+unknown-registry = "deny"
+unknown-git = "deny"
+allow-registry = ["https://github.com/rust-lang/crates.io-index"]
+allow-git = []

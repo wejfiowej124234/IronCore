@@ -1,0 +1,117 @@
+# Prometheus告警规则配置
+# 用于Rust Blockchain Secure Wallet的监控告警
+
+groups:
+  - name: wallet_alerts
+    interval: 30s
+    rules:
+      # API错误率告警
+      - alert: HighAPIErrorRate
+        expr: rate(api_errors_total[5m]) > 0.05
+        for: 5m
+        labels:
+          severity: warning
+          component: api
+        annotations:
+          summary: "API错误率过高"
+          description: "过去5分钟API错误率超过5% (当前: {{ $value | humanizePercentage }})"
+          
+      # 钱包创建失败告警
+      - alert: WalletCreationFailures
+        expr: rate(wallet_creation_failures_total[10m]) > 0.1
+        for: 5m
+        labels:
+          severity: warning
+          component: wallet
+        annotations:
+          summary: "钱包创建失败率高"
+          description: "过去10分钟钱包创建失败率过高"
+          
+      # 交易失败告警
+      - alert: TransactionFailures
+        expr: rate(transaction_failures_total[10m]) > 0.2
+        for: 5m
+        labels:
+          severity: critical
+          component: transaction
+        annotations:
+          summary: "交易失败率高"
+          description: "过去10分钟交易失败率超过20%，可能是RPC问题"
+          
+      # RPC连接失败
+      - alert: RPCConnectionFailure
+        expr: up{job="wallet-rpc"} == 0
+        for: 2m
+        labels:
+          severity: critical
+          component: rpc
+        annotations:
+          summary: "RPC节点连接失败"
+          description: "无法连接到区块链RPC节点，交易功能可能受影响"
+          
+      # CPU使用率过高
+      - alert: HighCPUUsage
+        expr: process_cpu_usage > 0.8
+        for: 10m
+        labels:
+          severity: warning
+          component: system
+        annotations:
+          summary: "CPU使用率过高"
+          description: "CPU使用率持续超过80%"
+          
+      # 内存使用率过高
+      - alert: HighMemoryUsage
+        expr: process_memory_bytes / node_memory_total_bytes > 0.9
+        for: 5m
+        labels:
+          severity: critical
+          component: system
+        annotations:
+          summary: "内存使用率过高"
+          description: "内存使用率超过90%，可能导致OOM"
+          
+      # API响应时间过长
+      - alert: SlowAPIResponse
+        expr: histogram_quantile(0.95, rate(api_request_duration_seconds_bucket[5m])) > 1.0
+        for: 10m
+        labels:
+          severity: warning
+          component: performance
+        annotations:
+          summary: "API响应时间过长"
+          description: "95%的请求响应时间超过1秒"
+          
+      # 数据库连接池耗尽
+      - alert: DatabasePoolExhausted
+        expr: db_connections_active / db_connections_max > 0.9
+        for: 5m
+        labels:
+          severity: warning
+          component: database
+        annotations:
+          summary: "数据库连接池接近耗尽"
+          description: "数据库连接池使用率超过90%"
+          
+      # 磁盘空间不足
+      - alert: LowDiskSpace
+        expr: node_filesystem_avail_bytes{mountpoint="/"} / node_filesystem_size_bytes{mountpoint="/"} < 0.1
+        for: 5m
+        labels:
+          severity: critical
+          component: system
+        annotations:
+          summary: "磁盘空间不足"
+          description: "可用磁盘空间低于10%"
+          
+      # Nonce冲突
+      - alert: NonceConflicts
+        expr: rate(nonce_conflicts_total[10m]) > 0.01
+        for: 5m
+        labels:
+          severity: warning
+          component: transaction
+        annotations:
+          summary: "Nonce冲突频繁"
+          description: "过去10分钟Nonce冲突率过高，可能是并发问题"
+

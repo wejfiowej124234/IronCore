@@ -1,0 +1,7 @@
+# Seeds for failure cases proptest has generated in the past. It is
+# automatically read and these particular cases re-run before any
+# novel cases are generated.
+#
+# It is recommended to check this file in to source control so that
+# everyone who runs the test benefits from these saved cases.
+cc 85d3c751d704726f592c88b598c4e4dfabf2aa2d855f275d9342da6a297e0612 # shrinks to passphrase = "®0 ዘএᤀ 0A ᪠ῖ𝒥AAa00ਫ਼𞟭A𐮙A AaA𑦪0A𝔞 0𐺀 a0a᪐\u{11357}A0 0꣎aa00 Aୋ 𑎷𠀀"

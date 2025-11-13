@@ -1,0 +1,30 @@
+[Unit]
+Description=Blockchain Wallet Backend Service
+After=network.target
+
+[Service]
+Type=simple
+User=wallet
+Group=wallet
+WorkingDirectory=/opt/blockchain-wallet
+Environment="RUST_LOG=info"
+EnvironmentFile=/opt/blockchain-wallet/.env.production
+ExecStart=/opt/blockchain-wallet/blockchain-wallet-server
+Restart=always
+RestartSec=10
+
+# 安全加固
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/blockchain-wallet/data
+
+# 日志
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=blockchain-wallet
+
+[Install]
+WantedBy=multi-user.target
+
