@@ -1,10 +1,25 @@
-# Blockchain Wallet Backend
+# IronCore - Backend API Server
 
-A REST API server for cryptocurrency wallet management built with Rust.
+> 🦀 Enterprise-grade blockchain wallet backend API server
+
+---
+
+## 🌐 Iron Blockchain Wallet Ecosystem
+
+| # | Project | Description | Repository |
+|---|---------|-------------|------------|
+| 1️⃣ | **IronCore** | 🎯 钱包后端 - Backend API Server | 👉 **[You are here]** |
+| 2️⃣ | **IronForge** | 🌐 前端钱包 - Web Wallet | [→ Visit](https://github.com/wejfiowej124234/IronForge) |
+| 3️⃣ | **IronLink-DApp** | 📱 移动端 - Mobile DApp Wallet | [→ Visit](https://github.com/wejfiowej124234/IronLink-DApp) |
+| 4️⃣ | **IronGuard-AI** | 🤖 AI安全 - AI Security Layer | [→ Visit](https://github.com/wejfiowej124234/ironguard-ai) |
+| 5️⃣ | **IronVault-XR** | 🥽 智能眼镜 - AR/VR Wallet | [→ Visit](https://github.com/wejfiowej124234/IronVault-XR) |
+| 6️⃣ | **Attack-Defense** | ⚔️ 攻防知识库 - Security Knowledge Base | [→ Visit](https://github.com/wejfiowej124234/Attack-Defense) |
+
+---
 
 ## Overview
 
-This is a backend service that provides wallet creation, transaction management, and multi-chain blockchain integration through a RESTful API.
+A REST API server for cryptocurrency wallet management built with Rust. This is the core backend engine powering the entire Iron Blockchain Wallet Ecosystem.
 
 ## Features
 
@@ -15,13 +30,15 @@ This is a backend service that provides wallet creation, transaction management,
 - User authentication with JWT
 - Cross-chain bridge and swap integration
 - NFT and GameFi asset management
+- 900+ test cases with 95%+ coverage
+- Enterprise-grade security
 
 ## Technology Stack
 
-- **Language**: Rust
+- **Language**: Rust 1.75+
 - **Framework**: Axum (async web framework)
 - **Runtime**: Tokio (async runtime)
-- **Database**: SQLite with SQLx
+- **Database**: SQLite/PostgreSQL with SQLx
 - **Cryptography**: RustCrypto ecosystem
 - **Authentication**: JWT with Argon2id password hashing
 
@@ -74,11 +91,11 @@ See [API_DOCUMENTATION.md](API_DOCUMENTATION.md) for complete API reference.
 
 ```bash
 # Clone repository
-git clone https://github.com/DarkCrab-Rust/Rust-Blockchain-Secure-Wallet.git
-cd Rust-Blockchain-Secure-Wallet
+git clone https://github.com/wejfiowej124234/IronCore.git
+cd IronCore
 
 # Copy environment configuration
-cp .env.example .env
+cp env.example.txt .env
 
 # Edit .env with your settings
 # Set blockchain RPC endpoints, JWT secret, etc.
@@ -118,11 +135,12 @@ BSC_RPC=https://bsc-dataseed.binance.org/
 src/
 ├── api/            # API route handlers
 ├── core/           # Core business logic
-│   ├── wallet/     # Wallet management
+│   ├── wallet_manager/  # Wallet management (10 submodules)
 │   ├── crypto/     # Cryptography utilities
-│   └── bip/        # BIP39/BIP44 implementation
-├── services/       # External service integrations
-├── db/             # Database operations
+│   └── config/     # Configuration
+├── blockchain/     # Blockchain clients
+├── security/       # Security modules
+├── auth/           # Authentication
 └── main.rs         # Application entry point
 ```
 
@@ -134,27 +152,38 @@ src/
 - SQL injection prevention with parameterized queries
 - Input validation on all endpoints
 - CORS configuration for production
+- Memory protection (mlock, zeroize)
+- Anti-debugging in production
+- Hardware wallet support (Ledger, Trezor)
 
 ## Testing
 
-- 348 unit and integration tests
-- Test coverage: 85%+
+- 147 test files
+- 900+ test cases
+- Test coverage: 95%+
 - Includes stress tests for concurrent operations
+
+## Documentation
+
+- [API Documentation](API_DOCUMENTATION.md) - Complete API reference
+- [Security Audit](docs/SECURITY_AUDIT.md) - Security analysis
+- [Architecture](docs/ARCHITECTURE.md) - System design
+- [Deployment Guide](docs/DEPLOYMENT_GUIDE.md) - Production deployment
+- [Chinese Documentation](项目框架文档_中文版.md) - 中文文档 (260+ 页)
 
 ## License
 
-MIT License - see [LICENSE](LICENSE) for details
+MIT OR Apache-2.0 - see [LICENSE](LICENSE) for details
 
 ## Contributing
 
-Contributions welcome. Please open an issue or pull request.
-
-## Related Projects
-
-- **Web Frontend**: [blockchain-wallet-ui](https://github.com/DarkCrab-Rust/blockchain-wallet-ui)
-- **Mobile DApp**: [IronLink-DApp](https://github.com/DarkCrab-Rust/IronLink-DApp)
-- **Web Wallet (Rust)**: [IronForge](https://github.com/DarkCrab-Rust/IronForge)
+Contributions welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) first.
 
 ## Contact
 
-GitHub Issues: https://github.com/DarkCrab-Rust/Rust-Blockchain-Secure-Wallet/issues
+- Issues: https://github.com/wejfiowej124234/IronCore/issues
+- Repository: https://github.com/wejfiowej124234/IronCore
+
+---
+
+**Built with ❤️ using Rust**
