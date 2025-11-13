@@ -115,7 +115,7 @@ intl-memoizer = "0.5"
 async-trait = "0.1"
 base58 = "0.2.0"
 bs58 = "0.5"
-itertools = "0.13"
+itertools = "0.14"
 subtle = "2.5"
 rust_decimal = "1.36"
 
