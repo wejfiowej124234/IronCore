@@ -1,0 +1,233 @@
+[package]
+name = "defi-hot-wallet"
+version = "0.1.0"
+edition = "2021"
+authors = ["DarkCrab-Rust"]
+description = "Enterprise-grade non-custodial blockchain wallet with multi-chain support, rule-based risk detection, and RESTful API. Built in 50 days."
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/DarkCrab-Rust/Rust-Secure-Wallet-AI"
+keywords = ["blockchain", "wallet", "ethereum", "multi-chain", "rust"]
+categories = ["cryptography", "command-line-utilities", "network-programming"]
+default-run = "hot_wallet"
+
+[lib]
+name = "defi_hot_wallet"
+path = "src/lib.rs"
+
+[workspace]
+members = [
+    # ...existing members...
+    "patches/elliptic-curve-tools",
+]
+
+[dependencies]
+secp256k1 = { version = "0.27", features = ["recovery"] }
+# core / runtime
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "time"] }
+tokio-util = "0.7"
+futures = "0.3"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+# crypto primitives
+sha2 = "0.10"
+sha3 = "0.10"
+aes-gcm = "0.10"
+hkdf = "0.12.4"
+hmac = "0.12.1"
+pbkdf2 = "0.12.2"
+scrypt = "0.11.0"
+# Fixed security vulnerability RUSTSEC-2020-0160 (threshold value ignored)
+# threshold_crypto = "0.4.0"
+zeroize = { version = "1.8.1", features = ["derive"] }
+secrecy = { version = "0.8", features = ["alloc"] }
+argon2 = { version = "0.5.3" }
+base64 = "0.22"
+rand = { version = "0.8", features = ["std"] }
+rand_core = "0.6"
+aead = "0.5"
+# Fixed ring security vulnerability by using direct dependency
+ring = "0.17.14"
+# Fixed RUSTSEC-2025-0009 by upgrading jsonwebtoken to use newer ring
+jsonwebtoken = "9.3.1"
+
+# elliptic / curve crates - unified to 0.13 series and enable serde features
+elliptic-curve = { version = "0.13", features = ["alloc", "serde"] }
+ecdsa = { version = "0.13.4", features = ["serde"] }
+
+k256 = { version = "0.13", features = ["arithmetic", "serde"] }
+p256 = { version = "0.13", features = ["arithmetic", "serde"] }
+p384 = { version = "0.9", features = ["serde"] }
+
+curve25519-dalek = "4.1.3"
+curve25519-dalek-ml = { version = "4.2", features = ["group", "group-bits"] }
+ed448-goldilocks-plus = "0.16"
+ed25519-dalek = { version = "2.1", features = ["rand_core"] }
+
+# blockchain / integrations
+ethers = { version = "2.0.14", default-features = false, features = ["abigen", "rustls"] }
+bitcoin = { version = "0.31", optional = true }
+
+# BIP standards
+bip39 = "2.0"
+coins-bip32 = "0.8"
+coins-bip39 = "0.8"
+
+# serialization / storage
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+bincode = "1.3"
+# Replaced unmaintained serde_cbor with ciborium (RUSTSEC-2021-0127)
+ciborium = "0.2.1"
+postcard = { version = "1.0", features = ["alloc", "use-std"] }
+toml = "0.8"
+chrono = { version = "0.4", features = ["serde"] }
+
+# database
+# 确保不使用 MySQL 特性以避免 RSA 漏洞 (RUSTSEC-2023-0071)
+
+# http / cli / utils
+reqwest = { version = "0.11", features = ["json", "rustls-tls"] }
+tower = { version = "0.4", features = ["util", "limit", "timeout"] }
+axum = { version = "0.7", features = ["ws"] }
+tower-http = { version = "0.5", features = ["limit", "trace", "cors"] }
+clap = { version = "4.5", features = ["derive"] }
+
+# misc utilities
+anyhow = "1.0"
+thiserror = "1.0"
+hex = "0.4"
+bytes = "1.5"
+uuid = { version = "1.0", features = ["v4", "serde"] }
+lazy_static = "1.4"
+once_cell = "1.19"
+parking_lot = "0.12"
+# atty = "0.2"  # REMOVED: unmaintained (RUSTSEC-2024-0375, RUSTSEC-2021-0145)
+# Replaced with is-terminal for terminal detection
+is-terminal = "0.4"
+log = "0.4"
+regex = "1.10"
+md-5 = "0.10"
+bcrypt = "0.15"
+fluent = "0.16"
+fluent-bundle = "0.15"
+intl-memoizer = "0.5"
+async-trait = "0.1"
+base58 = "0.2.0"
+bs58 = "0.5"
+itertools = "0.13"
+subtle = "2.5"
+rust_decimal = "1.36"
+
+# Optional PKCS#11 crate used by the pkcs11-backend feature.
+# WARNING: pkcs11 0.5.0 has known security issues (RUSTSEC-2022-0034)
+# DO NOT enable pkcs11-backend feature in production until this is resolved
+# Consider using cryptoki crate instead or awaiting pkcs11 fix
+# pkcs11 = { version = "0.5.0", optional = true }  # DISABLED due to security issue
+
+# Hardware wallet support
+hidapi = { version = "2.4", optional = true }
+
+# monitoring / metrics
+prometheus = { version = "0.13.4", default-features = false, features = ["process"] }
+protobuf = "3.5.0"
+
+# 确保不使用 MySQL 特性以避免 RSA 漏洞 (RUSTSEC-2023-0071)
+sqlx = { version = "0.8.6", default-features = false, features = ["runtime-tokio-rustls", "sqlite", "postgres", "macros", "chrono", "json"] }
+
+# small helpers
+governor = "0.6"
+ctor = "0.6.0"
+cookie = "0.18"
+
+serde_yaml = "*"
+# 尝试使用 blsful 2.5，看是否有更好的兼容性
+blsful = { version = "2.5", optional = true }
+
+[features]
+default = ["memlock", "ethereum", "bitcoin"]
+strict_security = []
+memlock = ["dep:libc", "dep:winapi"]
+std = []
+yaml = []
+msgpack = []
+# Blockchain support features
+ethereum = []
+bitcoin = ["dep:bitcoin"]
+# Hardware wallet features
+trezor = ["dep:hidapi"]
+ledger = ["dep:hidapi"]
+# Database feature (placeholder)
+database = []
+# AI anomaly detection
+ai-anomaly-detection = []
+# enable ctor when test-env feature is requested
+test-env = []
+sop_patch_tests = []
+bls-tests = ["dep:blsful"]
+shamir-impl = []
+# pkcs11-backend = ["pkcs11"]  # DISABLED: pkcs11 has security issues (RUSTSEC-2022-0034)
+# When enabled, include bundled resource files (i18n) into the binary via `include_str!`.
+# Default: disabled so the core repo doesn't need to carry large documentation/assets.
+bundled-resources = []
+
+[dev-dependencies]
+base64 = "0.22"
+http-body-util = "0.1"
+
+tokio = { version = "1", features = ["macros", "rt-multi-thread", "time"] }
+criterion = "0.5"
+tempfile = "3.8"
+test-log = "0.2"
+assert_cmd = "2.0"
+axum-test = "16.0"
+serial_test = "3.0"
+bincode = "1.3.3"
+serde_json = "1.0"
+rand = "0.8.5"
+proptest = "1.2.0"
+httpmock = "0.7"
+pretty_assertions = "1.4.1"
+test-case = "3.3.1"
+# elliptic-curve-tools 已移至常规依赖项
+elliptic-curve-tools = { path = "patches/elliptic-curve-tools", features = ["sop_patch_tests"] }
+
+[target.'cfg(target_os = "windows")'.dependencies]
+windows = { version = "0.57.0", features = ["Win32_System_Memory", "Win32_Foundation", "Win32_System_Diagnostics_Debug"] }
+# Add winapi because code directly references winapi::shared::minwindef etc.
+# VirtualLock/VirtualUnlock are in winapi::um::memoryapi; select relevant features.
+winapi = { version = "0.3", features = ["memoryapi", "minwindef", "winbase", "winnt", "sysinfoapi"], optional = true }
+
+[dependencies.libc]
+version = "0.2"
+optional = true
+
+[profile.release]
+lto = true
+codegen-units = 1
+panic = "abort"
+debug = true
+
+[profile.dev]
+debug = true
+
+[[bin]]
+name = "hot_wallet"
+path = "src/main.rs"
+
+[[bin]]
+name = "wallet-cli"
+path = "src/bin/wallet-cli.rs"
+
+[[bin]]
+name = "bridge_test"
+path = "src/bin/bridge_test.rs"
+
+[[bench]]
+name = "crypto_performance"
+path = "benches/crypto_performance.rs"
+harness = false
+
+[patch.crates-io]
+# 使用本地补丁进行测试/构建
+elliptic-curve-tools = { path = "patches/elliptic-curve-tools" } 

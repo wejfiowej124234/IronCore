@@ -1,0 +1,90 @@
+# Rust build artifacts
+/target/
+/defi-target/
+/target_test_*/
+
+# Cargo lock for libraries (keep for binaries)
+# Cargo.lock
+
+# Generated files
+*.exe
+*.pdb
+*.rlib
+*.d
+*.so
+*.dylib
+*.dll
+
+# Database files (never commit)
+*.db
+*.sqlite
+*.sqlite3
+wallets.db
+wallet.json
+data/*.db
+data/*.sqlite
+
+# Test artifacts
+cargo-test.log
+test.log
+TEMP*.txt
+proptest-regressions/
+tarpaulin-report.html
+coverage/
+
+# Environment files (secrets)
+.env
+.env.local
+.env.*.local
+
+# IDE and editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Logs
+logs/
+*.log
+
+# Backup and temporary files
+*.bak
+*.backup
+*.tmp
+*_backup/
+.git_备份/
+.git_corrupt/
+.husky_bak/
+
+# Node modules (if any)
+node_modules/
+dist/
+
+# Build artifacts
+build/
+# macOS
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Linux specific
+.fuse_hidden*
+.directory
+.Trash-*
+
+# Rust specific
+**/*.rs.bk
+
+# Scripts output
+scripts/output/
+scripts/logs/
+
+# Temporary cleanup files
+*.bak
+README.md.bak

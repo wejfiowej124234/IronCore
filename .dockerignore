@@ -1,0 +1,24 @@
+# Fly.io优化的.dockerignore
+target/
+defi-target/
+Cargo.lock
+.git
+.gitignore
+*.db
+*.db-shm
+*.db-wal
+logs/
+coverage/
+docs/screenshots/
+*.md
+.env
+.env.*
+README.md
+DEPLOYMENT.md
+*.bat
+*.sh
+scripts/
+monitoring/
+nginx/
+systemd/
+
