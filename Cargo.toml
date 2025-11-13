@@ -129,7 +129,7 @@ rust_decimal = "1.36"
 hidapi = { version = "2.4", optional = true }
 
 # monitoring / metrics
-prometheus = { version = "0.13.4", default-features = false, features = ["process"] }
+prometheus = { version = "0.14.0", default-features = false, features = ["process"] }
 protobuf = "3.5.0"
 
 # 确保不使用 MySQL 特性以避免 RSA 漏洞 (RUSTSEC-2023-0071)
